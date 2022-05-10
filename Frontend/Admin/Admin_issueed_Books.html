@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Admin Find Issued Books</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      .navbar ul {
+        list-style-type: none;
+        border-collapse: collapse;
+        border:1px solid #2E86C1;
+        border-radius: 10px;
+        box-shadow: 0 5px 5px #e1e5ee;;
+        text-align: center;
+        margin : 20px;
+        margin-top: 100px;
+        padding: 0;
+        width: 18%;
+        height: 60%;
+        background-color:#2E86C1;
+        position: fixed;
+      }
+      .navbar li{
+    margin-bottom: 25px;
+}
+.navbar li a {
+        display: block;
+        font-size: 18px;
+        color: #eee;
+        padding: 8px 16px;
+        text-decoration: none;
+      }
+
+      .navbar li a.active {
+        background-color: #04aa6d;
+        color: white;
+      }
+
+.navbar li a:hover:not(.active) {
+        background-color: lightseagreen;
+        color: white;
+      }
+      #footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 60px;
+        background-color: #2E86C1;
+      }
+      #header {
+        position: fixed;
+        display: flex;
+        top: 0;
+        width: 100%;
+        height: 60px;
+        background: #2E86C1;
+      }
+      #header h2{
+          text-align: center;
+          margin:10px auto;
+          color:#ffffff;
+      }
+
+      #header button{
+        margin-right: 10%;
+        margin-top: 1%;
+        height: 50%;
+        background: transparent;
+        border: none;
+        color: #ffffff;
+        font-size: 20px;
+      }
+
+      #header button:hover {
+        background-color: lightseagreen;
+        color: white;
+      }
+      /* table,
+      th,
+      tr,
+      td {
+        border: 1px solid black;
+      } */
+
+      
+
+      .bookListIssued {
+        margin-top: 5%;
+        margin-left: 25%;
+      }
+      .Book-search {
+        margin: 0 80px 20px 80px;
+      }
+
+      .search img {
+        width: 35px;
+        height: 35px;
+        margin: 35px 80px 20px 80px;
+      }
+
+      #all-books{
+          margin-bottom: 100px;
+      }
+
+      .return{
+        background-color: #2E86C1;
+        color:#f1f1f1;
+        width: 15%;
+        height: 30px;
+        border-radius: 5px;
+        border: none;
+        margin-right: 30px;
+      }
+      
+       /*search css start*/
+       .search{
+            display: flex;
+            justify-content: center;
+            margin: 8%;
+        }
+      .search-container{
+    margin-right: 18%;
+}
+.search .search-container button {
+  float: right;
+  padding: 0.5rem 0.5rem;
+  margin-right: 16px;
+  background: #ddd;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.search input{
+    padding: 1%;
+}
+
+.search .search-container button:hover {
+  background: #ccc;
+}
+      /*search css end*/
+      .popup {
+            width: 30%;
+            height: 150px;
+            border-collapse: collapse;
+            box-shadow: 0 5px 5px #e1e5ee;
+            border: 1px solid #e1e5ee;
+            margin-left: 35%;
+            margin-top: 15%;
+            position: fixed;
+            z-index: 1001;
+            display: none;
+
+        }
+
+        .popup button {
+            width: 20%;
+            height: 40px;
+            color: white;
+
+            background-color: #0096FF;
+            border: none;
+            border-radius: 10px;
+            margin-left: 40%;
+        }
+
+        .popup p {
+            font-size: large;
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
+  </head>
+  <body>
+    <div id="header" >
+      <h2>Library Management System</h2>
+      <button onclick="logout()">Logout</button>
+  </div>
+  <div class="popup" id="popup">
+    <p></p>
+
+    <button id="okbtn">Ok</button>
+    </div>
+    <div class="navbar">
+    <ul>
+      <li><a href="Admin_home.html">Home</a></li>
+      <li><a href="Admin_addbook.html">Add Book</a></li>
+      <li><a href="BookList.html">View Books</a></li>
+      <li><a href="Admin_FindBook.html">Update book</a></li>
+      <li><a  href="Admin_FindStudent.html">Find Students</a></li>
+      <li><a href="Admin_issue_request.html">Books issue request</a></li>
+      <li><a class="active" href="Admin_issueed_Books.html">Issued Books</a></li>
+    </ul>
+    </div>
+
+    <div>
+        <div class="bookListIssued">
+          <div class="search">
+            <div class="search-container">
+              <form style="display: flex;">
+                <input type="text" id="s1" placeholder="Search by rollno.." style="margin-right:50px;" name="search">
+                <button type="button" id="search" ><i class="fa fa-search"></i></button>
+              </form>
+            </div>
+
+          </div>
+            <div id="all-books">
+          </div>
+          </div>
+          </div>
+          <script>
+       const api_url =
+        "https://librarymanagementsystemkp.herokuapp.com/api/admin/issuehistory";
+        var bearer_token = document.cookie.split("=")[1];
+  var bearer = 'Bearer ' + bearer_token;
+      fetch(api_url, {
+        method: "GET",
+        mode: "cors", // no-cors, *cors, same-origin
+        headers: {
+          'authorization' : bearer,
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          console.log(res);
+          getData(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+        document.querySelector("#search").addEventListener("click", () => {
+        call();
+      });
+      function call() {
+        // var params = new URLSearchParams({
+        //   name: document.getElementById("s1").value,
+        //   author: document.getElementById("s2").value,
+        // });
+        var rollno = document.getElementById("s1").value;
+        console.log(rollno);
+        var search_api = `https://librarymanagementsystemkp.herokuapp.com/api/admin/issuebook/${rollno}`;
+
+        console.log(search_api);
+        fetch(search_api, {
+          method: "GET",
+          mode: "cors", // no-cors, *cors, same-origin
+          headers: {
+            'authorization' : bearer,
+            "Content-Type": "application/json",
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        })
+          .then((res) => {
+            return res.json();
+          })
+          .then((res) => {
+            console.log(res);
+            getSearchData(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+
+      function getData(issueData) {
+        var pos = 0;
+        for (const i in issueData) {
+          var booklist = document.getElementById("all-books");
+          var newdiv = document.createElement("div");
+          newdiv.classList.add("normal");
+          newdiv.style.height = "auto";
+          newdiv.style.width = "80%";
+          newdiv.style.border = "1px solid rgba(0,0,0,.125)";
+          newdiv.insertAdjacentHTML(
+            "beforeend",
+            `<p style='margin-left:10px;'> <span style='font-weight:bold;'>Roll No. :</span>   <span>${issueData[i].rollNo}</span></p>`
+          );
+          newdiv.insertAdjacentHTML(
+            "beforeend",
+            `<p style='margin-left:10px;'><span style='font-weight:bold;'>Name :</span>   ${issueData[i].studentName}</p>`
+          );
+          newdiv.insertAdjacentHTML(
+            "beforeend",
+            `<p style='margin-left:10px;'> <span style='font-weight:bold;'>Book Name :</span>   ${issueData[i].book}</p>`
+          );
+          newdiv.insertAdjacentHTML(
+            "beforeend",
+            `<p style='margin-left:10px;'> <span style='font-weight:bold;'>ISBN :</span>   ${issueData[i].isbn}</p>`
+          );
+          newdiv.insertAdjacentHTML(
+            "beforeend",
+            `<p style='margin-left:10px;'> <span style='font-weight:bold;'>Issued Date :</span>   ${issueData[i].issueDate}</p>`
+          );
+          newdiv.insertAdjacentHTML(
+            "beforeend",
+            `<p style='margin-left:10px;'> <span style='font-weight:bold;'>Return Date :</span>   ${issueData[i].returnDate}</p>`
+          );
+          newdiv.insertAdjacentHTML(
+                  "beforeend",
+                  `<a><button style='margin-left:10px;' id="${i}" class="return"  onclick="returnBook(this.id)" name="return">Return</button></a><br><br>`
+                );
+
+          booklist.appendChild(newdiv);
+        }
+      }
+
+      function getSearchData(issueData) {
+        var pos = 0;
+        hide(document.querySelectorAll(".normal"));
+        var booklist = document.getElementById("all-books");
+        var temp = document.createElement("div");
+        temp.classList.add("searchdiv");
+        booklist.appendChild(temp);
+        hide(document.querySelectorAll(".searchdiv"));
+        for (const i in issueData) {
+          var booklist = document.getElementById("all-books");
+          var newdiv = document.createElement("div");
+          newdiv.classList.add("searchdiv");
+          //var sno = document.createTextNode(`${data[i].SNo}`);
+          //newdiv.appendChild(sno);
+          newdiv.style.height = "auto";
+          newdiv.style.width = "90%";
+          newdiv.style.border = "1px solid rgba(0,0,0,.125)";
+          newdiv.insertAdjacentHTML(
+            "beforeend",
+            `<p style='margin-left:10px;'> <span style='font-weight:bold;'>Roll No. :</span>   <span>${issueData[i].rollNo}</span></p>`
+          );
+          newdiv.insertAdjacentHTML(
+            "beforeend",
+            `<p style='margin-left:10px;'><span style='font-weight:bold;'>Name :</span>   ${issueData[i].studentName}</p>`
+          );
+          newdiv.insertAdjacentHTML(
+            "beforeend",
+            `<p style='margin-left:10px;'> <span style='font-weight:bold;'>Book Name :</span>   ${issueData[i].book}</p>`
+          );
+          newdiv.insertAdjacentHTML(
+            "beforeend",
+            `<p style='margin-left:10px;'> <span style='font-weight:bold;'>ISBN :</span>   ${issueData[i].isbn}</p>`
+          );
+          newdiv.insertAdjacentHTML(
+            "beforeend",
+            `<p style='margin-left:10px;'> <span style='font-weight:bold;'>Issued Date :</span>   ${issueData[i].issueDate}</p>`
+          );
+          newdiv.insertAdjacentHTML(
+            "beforeend",
+            `<p style='margin-left:10px;'> <span style='font-weight:bold;'>Return Date :</span>   ${issueData[i].returnDate}</p>`
+          );
+          newdiv.insertAdjacentHTML(
+                  "beforeend",
+                  `<a><button style='margin-left:10px;' id="${i}" class="return" onclick="returnBook(this.id)" name="return">Return</button></a><br><br>`
+                );
+
+          booklist.appendChild(newdiv);
+        }
+      }
+
+      function returnBook(id){
+        var returnid=document.getElementById(id).parentNode.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.children[1].innerHTML.trim();
+        console.log(returnid);
+        const return_api = `https://librarymanagementsystemkp.herokuapp.com/api/admin/return/${returnid}`
+        fetch(return_api, {
+          method: "POST",
+          mode: "cors", // no-cors, *cors, same-origin
+          headers: {
+            'authorization' : bearer,
+            "Content-Type": "application/json",
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        })
+          .then((res) => {
+            return res.json();
+          })
+          .then((res) => {
+            console.log(res);
+            getSearchData(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+          window.location.reload();
+      }
+
+      function hide(elements) {
+        elements = elements.length ? elements : [elements];
+        for (var index = 0; index < elements.length; index++) {
+          elements[index].style.display = "none";
+        }
+      }
+
+      document.getElementById("okbtn").addEventListener("click",removepopup);
+        function displaypopup(res)
+        {
+          // console.log(res.message);
+          document.getElementById("popup").children[0].innerHTML=res.message;  
+          document.getElementById("popup").style.display="block"; 
+        }
+        function removepopup()
+        {
+          document.getElementById("popup").style.display="none";
+          window.location.reload();
+        }
+        function logout(){
+        document.cookie="token=;expires=Thu, 01 Jan 1970 00:00:00UTC; path=/;";
+        localStorage.clear();
+        window.location.href="../login.html"
+      }
+          </script>
+    <!-- <div id="footer">footer</div> -->
+  </body>
+</html>

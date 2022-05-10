@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Register</title>
+    <style>
+      /* start navbar css*/
+      nav {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        min-height: 8vh;
+        background-color: #2e86c1;
+        font-family: "Montserrat", sans-serif;
+      }
+
+      .heading {
+        color: white;
+        text-transform: uppercase;
+        letter-spacing: 5px;
+        font-size: 20px;
+      }
+
+      .nav-links {
+        display: flex;
+        justify-content: space-around;
+        width: 40%;
+      }
+
+      .nav-links li {
+        list-style: none;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        letter-spacing: 3px;
+        font-weight: bold;
+        font-size: 14px;
+        padding: 14px 16px;
+      }
+
+      .nav-links a:hover:not(.active) {
+        background-color: lightseagreen;
+      }
+
+      .nav-links li a.active {
+        background-color: #4caf50;
+      }
+      /* End navbar css*/
+
+      /* register */
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "poppins", sans-serif;
+      }
+
+      .main {
+        display: grid;
+      }
+
+      body {
+        height: 100vh;
+        justify-content: center;
+        align-items: center;
+        align-items: center;
+        background-image: url(./logo.jpeg);
+        background-size: cover;
+        background-attachment: fixed;
+      }
+
+      .container {
+        max-width: 700px;
+        border-radius: 8px;
+        display: inline-flexbox;
+        height: 67vh;
+        width: 60vw;
+        margin: 4%;
+        margin-left: 31%;
+        padding: 35px 30px;
+        justify-content: center;
+        background-color: #fff;
+      }
+
+      .container .title {
+        font-size: 25px;
+        font-weight: 500;
+        position: relative;
+      }
+
+      .container .title::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 3px;
+        width: 30px;
+      }
+
+      .container .form .user-details {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin: 20px 0 12px 0;
+      }
+
+      .form .user-details .input-box {
+        margin-bottom: 15px;
+        width: calc(100% / 2 - 20px);
+      }
+
+      .user-details .input-box details {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 5px;
+      }
+
+      .user-details .input-box input {
+        height: 45px;
+        width: 100%;
+        outline: none;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        padding-left: 15px;
+        font-size: 16px;
+        border-bottom-width: 2px;
+        transition: all 0.3s ease;
+      }
+      .form .gender-details {
+        width: calc(100% / 2 - 20px);
+      }
+      .form .gender-details .gender-title {
+        font-size: 15px;
+        font-weight: 500;
+      }
+
+      .form .gender-details .category {
+        display: flex;
+        width: 100%;
+        margin: 14px 0;
+        justify-content: space-between;
+      }
+
+      .gender-details .category label {
+        display: flex;
+      }
+
+      .gender-details .category .dot {
+        height: 18px;
+        width: 18px;
+        background: #d9d9d9;
+        border-radius: 50%;
+        margin-right: 10px;
+        border: 5px solid transparent;
+        transition: all 0.3s ease;
+      }
+
+      #dot-1:checked ~ .category .one,
+      #dot-2:checked ~ .category .two,
+      #dot-3:checked ~ .category .three {
+        border-color: #d9d9d9;
+        background: #04aa6d;
+      }
+      .form input[type="radio"] {
+        display: none;
+      }
+
+      .form .button {
+        height: 45px;
+        margin: 10px 0 10px 275px;
+      }
+
+      .form .button input {
+        height: 100%;
+        width: 25%;
+        border: none;
+        outline: none;
+        color: #fff;
+        font-size: 18px;
+        font-weight: 500;
+        border-radius: 5px;
+        letter-spacing: 1px;
+        background: #0096ff;
+      }
+
+      .form .button input:hover {
+        background-color: #04aa6d;
+      }
+      .course {
+        width: auto;
+        height: 30px;
+        outline: none;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        padding-left: 15px;
+        font-size: 16px;
+        border-bottom-width: 2px;
+        transition: all 0.3s ease;
+      }
+      h2 {
+        justify-content: center;
+        background: aquamarine;
+        margin: 1px 215px;
+        padding-left: 5px;
+      }
+      @media (max-width: 584px) {
+        .container {
+          max-width: 100%;
+        }
+        .form .user-details .input-box {
+          margin-bottom: 15px;
+          width: 100%;
+        }
+        .form .gender-details .category {
+          width: 100%;
+        }
+        .container .form .user-details {
+          max-height: 300px;
+          overflow-y: scroll;
+        }
+        .user-details::-webkit-scrollbar {
+          width: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="heading">
+        <h4>Library Management System</h4>
+      </div>
+      <ul class="nav-links">
+        <li style="margin-left: 50px"><a href="index.html">HOME</a></li>
+        <li><a href="BookList.html">BOOKS</a></li>
+        <li><a href="aboutUs.html">ABOUT US</a></li>
+        <li><a href="login.html">Login</a></li>
+      </ul>
+    </nav>
+
+    <div class="main">
+      <div class="container">
+        <div class="title">Registration</div>
+        <div class="form">
+          <div class="user-details">
+            <div class="input-box">
+              <span class="details"> First Name</span>
+              <input
+                type="text"
+                name="firstName"
+                id="firstName"
+                placeholder="First Name"
+                required
+              />
+            </div>
+            <div class="input-box">
+              <span class="details">Last Name</span>
+              <input
+                type="text"
+                id="lastName"
+                placeholder="Last Name"
+                name="lastName"
+                required
+              />
+            </div>
+            <div class="input-box">
+              <span class="details">Roll no</span>
+              <input
+                type="number"
+                id="rollNo"
+                placeholder="Roll no"
+                name="rollNo"
+                required
+              />
+            </div>
+            <div class="input-box">
+              <span class="details">Email</span>
+              <input
+                type="email"
+                placeholder="Email"
+                id="email"
+                name="email"
+                required
+              />
+            </div>
+
+            <div class="input-box">
+              <span class="details">Password</span>
+              <input
+                type="password"
+                id="password"
+                placeholder="Password"
+                name="password"
+                required
+              />
+            </div>
+            <div class="input-box">
+              <span class="details">Contact</span>
+              <input
+                type="tel"
+                placeholder="Contact"
+                id="contact"
+                name="contactNumber"
+                required
+              />
+            </div>
+            <div class="input-box">
+              <span class="details">Course</span>
+              <select name="course" class="course" id="course" required>
+                <option value="MScIT">MSc(IT)</option>
+                <option value="MSc(Ds)">MSc(Ds)</option>
+                <option value="BTech">BTech</option>
+                <option value="Mtech">MTech</option>
+                <option value="phd">Phd</option>
+              </select>
+            </div>
+            <div class="gender-details">
+              <input type="radio" name="gender" id="dot-1" value="Male" />
+              <input type="radio" name="gender" id="dot-2" value="Female" />
+              <input type="radio" name="gender" id="dot-3" value="Others" />
+              <span class="gender-title">Gender</span>
+              <div class="category">
+                <label for="dot-1">
+                  <span class="dot one"></span>
+                  <span class="gender">Male</span>
+                </label>
+                <label for="dot-2">
+                  <span class="dot two"></span>
+                  <span class="gender">Female</span>
+                </label>
+                <label for="dot-3">
+                  <span class="dot three"></span>
+                  <span class="gender">Others</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="button">
+            <input type="submit" value="Register" id="submit" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="register.js" defer>
+    </script>
+  </body>
+</html>

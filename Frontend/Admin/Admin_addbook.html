@@ -1,0 +1,376 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Add Book</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+
+*, *:after, *:before {
+	box-sizing: border-box;
+}
+
+body {
+	font-family: "DM Sans", sans-serif;
+	line-height: 1.5;
+	background-color: #f1f3fb;
+	padding: 0;
+    margin: 0;
+}
+
+img {
+	max-width: 100%;
+	display: block;
+}
+
+ 
+input {
+	appearance: none;
+	border-radius: 0;
+}
+
+.card {
+	margin: 1rem auto;
+	display: flex;
+	flex-direction: column;
+	width: 400%;
+	background-color: #FFF;
+	border-radius: 10px;
+	box-shadow: 0 10px 20px 0 rgba(#999, .25);
+	padding: .75rem;
+}
+.card h1{
+    text-align: center;
+    background-color: #2E86C1;
+    color: #f1f1f1;
+}
+
+.card-heading {
+	position: absolute;
+	left: 10%;
+	top: 15%;
+	right: 10%;
+	font-size: 1.75rem;
+	font-weight: 700;
+	color: #735400;
+	line-height: 1.222;
+
+}
+
+.card-form {
+	padding: 0rem 1rem 0;
+}
+
+.input {
+	display: flex;
+	flex-direction: column-reverse;
+	position: relative;
+	padding-top: 1.5rem;
+
+}
+
+.input-label {
+	color: #8597a3;
+	position: absolute;
+	top: 1.5rem;
+	transition: .25s ease;
+}
+
+.input-field {
+	border: 0;
+	z-index: 1;
+	background-color: transparent;
+	border-bottom: 2px solid #eee; 
+	font: inherit;
+	font-size: 1.125rem;
+	padding: .25rem 0;
+
+}
+
+.action {
+	margin-top: 2rem;
+}
+
+.action-button {
+	font: inherit;
+	font-size: 1.25rem;
+	padding: 0.5em;
+	width: 20%;
+    margin-left: 40%;
+	font-weight: 500;
+	background-color: #2E86C1;
+	border-radius: 6px;
+	color: #FFF;
+	border: 0;
+}
+
+.myDiv{
+    display: flex;
+    padding: 10px;
+}
+
+.box1{
+    flex: 20%;
+    display: flex;
+}
+
+.box2{
+    display: flex;
+    flex : 70%;
+}
+
+.card-info {
+	padding: 1rem 1rem;
+	text-align: center;
+	font-size: .875rem;
+	color: #8597a3;
+
+}
+
+.navbar ul {
+    list-style-type: none;
+        border-collapse: collapse;
+        border:1px solid #2E86C1;
+        border-radius: 10px;
+        box-shadow: 0 5px 5px #e1e5ee;;
+        text-align: center;
+        margin : 20px;
+        margin-top: 60px;
+        padding: 0;
+        width: 18%;
+        height: 65%;
+        background-color:#2E86C1;
+        position: fixed;
+      }
+      .navbar li{
+    margin-bottom: 25px;
+}
+.navbar li a {
+        display: block;
+        font-size: 18px;
+        color: #eee;
+        padding: 8px 16px;
+        text-decoration: none;
+      }
+
+      .navbar li a.active {
+        background-color: #04aa6d;
+        color: white;
+      }
+
+.navbar li a:hover:not(.active) {
+        background-color: lightseagreen;
+        color: white;
+      }
+      #footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 40px; 
+               background: #2E86C1;
+      }
+      #header {
+        position: fixed;
+        display: flex;
+        top: 0;
+        width: 100%;
+        height: 60px;
+        background: #2E86C1;
+      }
+      #header h2{
+          text-align: center;
+          margin:10px auto;
+          color:#ffffff;
+      }
+
+      #header button{
+        margin-right: 10%;
+        margin-top: 1%;
+        height: 50%;
+        background: transparent;
+        border: none;
+        color: #ffffff;
+        font-size: 20px;
+      }
+
+      #header button:hover {
+        background-color: lightseagreen;
+        color: white;
+      }
+      .popup {
+            width: 30%;
+            height: 150px;
+            border-collapse: collapse;
+            box-shadow: 0 5px 5px #e1e5ee;
+            border: 1px solid #e1e5ee;
+            margin-left: 35%;
+            margin-top: 15%;
+            position: fixed;
+            z-index: 1001;
+            display: none;
+
+        }
+
+        .popup button {
+            width: 20%;
+            height: 40px;
+            color: white;
+
+            background-color: #0096FF;
+            border: none;
+            border-radius: 10px;
+            margin-left: 40%;
+        }
+
+        .popup p {
+            font-size: large;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+</style>
+</head>
+<body>
+  <div class="popup" id="popup">
+    <p>Loading...</p>
+
+    <button id="okbtn">Ok</button>
+</div>
+    <div id="header" >
+        <h2>Library Management System</h2>
+        <button onclick="logout()">Logout</button>
+    </div>
+    <div class="myDiv">
+        <div class="box1">
+            <div class="navbar" style="margin-top: 80px;">
+    <ul>
+        <li><a href="Admin_home.html">Home</a></li>
+        <li><a class="active" href="Admin_addbook.html">Add Book</a></li>
+        <li><a href="BookList.html">View Books</a></li>       
+        <li><a  href="Admin_FindBook.html">Update book</a></li>
+        <li><a href="Admin_FindStudent.html">Find Students</a></li>
+        <li><a href="Admin_issue_request.html">Books issue request</a></li>
+        <li><a href="Admin_issueed_Books.html">Issued Books</a></li>
+    </ul>
+    </div>
+        </div>
+        <div class="box2">
+    <div class="container" style="margin-top: 60px;" >
+        <!-- code here -->
+        <div class="card">
+            <h1>Add Book</h1>
+            <div class="card-form">
+                <div class="input">
+                    <input type="text" id="title" class="input-field" placeholder="Title of Book" required/>
+                    <!-- <label class="input-label">Title of Book</label> -->
+                </div>
+                            <div class="input">
+                    <input type="text" id="author" class="input-field" placeholder="Author Name" required/>
+                    <!-- <label class="input-label">Author Name</label> -->
+                </div>
+                            <div class="input">
+                    <input type="number" id="isbn" class="input-field" placeholder="ISBN Number" required/>
+                    <!-- <label class="input-label">ISBN Number</label> -->
+                </div>
+                <div class="input">
+                    <textarea class="input-field" id="description" placeholder="Description of Books" required></textarea>
+                    <!-- <label class="input-label">Description of Books</label> -->
+                </div>
+                            <br>
+                                <label for="category" style="color: grey;">category :</label>
+                                <select style="border-radius: 5px; width: 150px; height: 30px; border: none;" name="category" id="category">
+                                    <option value="Educational">Educational</option>
+                                    <option value="Biography">Biography</option>
+                                    <option value="Web Devlopment">Web Devlopment</option>
+                                    <option value="Programming">Programming</option>
+                                  </select><br>
+                
+                            <div class="input">
+                    <input type="number" class="input-field" id="current_copies" placeholder="number of copies" required/>
+                    <!-- <label class="input-label">number of copies</label> -->
+                </div>
+                <div class="input">
+                  <input type="text" id="floor" class="input-field" placeholder="Floor" required/>
+                  <!-- <label class="input-label">ISBN Number</label> -->
+              </div>
+              <div class="input">
+                <input type="text" id="shelf" class="input-field" placeholder="Shelf" required/>
+                <!-- <label class="input-label">ISBN Number</label> -->
+            </div>
+                <div class="action">
+                    <button class="action-button" id="submit">Add Books</button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    </div>
+    </div>
+    <script>
+        const api_url = "https://librarymanagementsystemkp.herokuapp.com/api/admin/addbook";
+
+document.querySelector("#submit").addEventListener("click", () => {
+  call(api_url);
+});
+
+function call(api_url) {
+  let obj = {
+    title : document.getElementById("title").value,
+    author : document.getElementById("author").value,
+    description : document.getElementById("description").value,
+    isbn: document.getElementById("isbn").value,
+    category: document.getElementById("category").value,
+    current_copies : document.getElementById("current_copies").value,
+    shelf : document.getElementById("shelf").value,
+    floor : document.getElementById("floor").value
+  };
+  let body = JSON.stringify(obj);
+  var bearer_token = document.cookie.split("=")[1];
+  var bearer = 'Bearer ' + bearer_token;
+  console.log(body);
+  fetch(api_url, {
+    method: "POST",
+    mode: "cors", // no-cors, *cors, same-origin
+    headers: {
+      'authorization' : bearer,
+      "Content-Type": "application/json",
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: body,
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .then((res) => {
+      console.log(res);
+      displaypopup(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+        // document.getElementById("submit").addEventListener("click",displaypopup);
+        document.getElementById("okbtn").addEventListener("click",removepopup);
+        function displaypopup(res)
+        {
+          // console.log(res.message);
+          document.getElementById("popup").children[0].innerHTML=res.message;  
+          document.getElementById("popup").style.display="block"; 
+        }
+        function removepopup()
+        {
+          document.getElementById("popup").style.display="none";
+          window.location.reload();
+        }
+        function logout(){
+        document.cookie="token=;expires=Thu, 01 Jan 1970 00:00:00UTC; path=/;";
+        localStorage.clear();
+        window.location.href="../login.html"
+      }
+    </script>
+    <!-- <div id="footer">footer</div> -->
+</body>
+</html>

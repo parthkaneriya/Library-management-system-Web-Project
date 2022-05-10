@@ -1,0 +1,322 @@
+<html>
+  <head>
+    <title>Book List</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      /* start navbar css*/
+      nav {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        min-height: 8vh;
+        background-color: #2e86c1;
+        font-family: "Montserrat", sans-serif;
+      }
+
+      .heading {
+        color: white;
+        text-transform: uppercase;
+        letter-spacing: 5px;
+        font-size: 20px;
+      }
+
+      .nav-links {
+        display: flex;
+        justify-content: space-around;
+        width: 40%;
+      }
+
+      .nav-links li {
+        list-style: none;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        letter-spacing: 3px;
+        font-weight: bold;
+        font-size: 14px;
+        padding: 14px 16px;
+      }
+
+      .nav-links a:hover:not(.active) {
+        background-color: lightseagreen;
+      }
+
+      .nav-links li a.active {
+        background-color: #4caf50;
+      }
+      /* End navbar css*/
+
+      .search-container {
+        margin-right: 18%;
+      }
+      .search .search-container button {
+        float: right;
+        padding: 0.5rem 0.5rem;
+        margin-right: 16px;
+        background: #ddd;
+        font-size: 17px;
+        border: none;
+        cursor: pointer;
+      }
+
+      .search input {
+        padding: 1%;
+      }
+
+      .search .search-container button:hover {
+        background: #ccc;
+      }
+
+      .container {
+        grid-column: 2/3;
+      }
+      .footer {
+        background-color: #2e86c1;
+        margin-bottom: 0;
+        grid-column: 1/-1;
+      }
+
+      table,
+      th,
+      tr,
+      td {
+        border: 1px solid black;
+      }
+
+      .search {
+        display: flex;
+        justify-content: center;
+      }
+      #all-books {
+        display: inline-block;
+        border-collapse: collapse;
+        overflow: auto;
+        height: 500px;
+        width: 90%;
+      }
+
+      .booklist {
+        margin-top: 5%;
+        margin-left: 10%;
+      }
+      .bookname-search {
+        margin: 0 80px 20px 80px;
+      }
+      .authorname-search {
+        margin: 0 80px 20px 80px;
+      }
+
+      /* .search #search-btn {
+        width: 35px;
+        height: 35px;
+        margin: 38px 80px 20px 0;
+      } */
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="heading">
+        <h4>Library Management System</h4>
+      </div>
+      <ul class="nav-links">
+        <li style="margin-left: 50px"><a href="index.html">HOME</a></li>
+        <li><a href="BookList.html">BOOKS</a></li>
+        <li><a href="aboutUs.html">ABOUT US</a></li>
+        <li><a href="login.html">Login</a></li>
+      </ul>
+    </nav>
+    <div class="page-container">
+      <div class="container">
+        <div class="booklist">
+          <div class="search">
+            <div class="search-container">
+              <form style="display: flex">
+                <input
+                  type="text"
+                  id="s1"
+                  placeholder="Search by book.."
+                  style="margin-right: 50px"
+                  name="search"
+                />
+                <input
+                  type="text"
+                  id="s2"
+                  placeholder="Search by author.."
+                  style="margin-right: 50px"
+                  name="search"
+                />
+                <button type="button" id="search">
+                  <i class="fa fa-search"></i>
+                </button>
+              </form>
+            </div>
+          </div>
+          <div id="all-books"></div>
+        </div>
+      </div>
+      <!-- <div class="footer">footer</div> -->
+    </div>
+
+    <script>
+      const api_url =
+        "https://librarymanagementsystemkp.herokuapp.com/api/general/allbooks";
+
+      fetch(api_url, {
+        method: "GET",
+        mode: "cors", // no-cors, *cors, same-origin
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          console.log(res);
+          getData(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      //   console.log(data);
+      document.querySelector("#search").addEventListener("click", () => {
+        call();
+      });
+      function call() {
+        var params = new URLSearchParams({
+          name: document.getElementById("s1").value,
+          author: document.getElementById("s2").value,
+        });
+        var name = document.getElementById("s1").value;
+        var author = document.getElementById("s2").value;
+        if (name === "") {
+          var search_api = `http://localhost:8080/api/admin/searchbook?author=${author}`;
+        } else if (author === "") {
+          var search_api = `http://localhost:8080/api/admin/searchbook?name=${name}`;
+        } else {
+          var search_api = `http://localhost:8080/api/admin/searchbook?name=${name}&author=${author}`;
+        }
+
+        console.log(search_api);
+        fetch(search_api, {
+          method: "GET",
+          mode: "cors", // no-cors, *cors, same-origin
+          headers: {
+            "Content-Type": "application/json",
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        })
+          .then((res) => {
+            return res.json();
+          })
+          .then((res) => {
+            console.log(res);
+            getSearchData(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+
+      function getData(data) {
+        var pos = 0;
+        for (const i in data) {
+          var booklist = document.getElementById("all-books");
+          var newdiv = document.createElement("div");
+          newdiv.classList.add("normal");
+          //var sno = document.createTextNode(`${data[i].SNo}`);
+          //newdiv.appendChild(sno);
+          newdiv.style.height = "auto";
+          newdiv.style.width = "90%";
+          newdiv.style.border = "1px solid rgba(0,0,0,.125)";
+          newdiv.insertAdjacentHTML(
+            "beforeend",
+            `<p style='margin-left:10px;'> <span style='font-weight:bold;'>S.No. :</span>   ${
+              Number(i) + Number(1)
+            }</p>`
+          );
+          newdiv.insertAdjacentHTML(
+            "beforeend",
+            `<p style='margin-left:10px;'><span style='font-weight:bold;'>Name of book:</span>   <a>${data[i].title}</a></p>`
+          );
+          newdiv.insertAdjacentHTML(
+            "beforeend",
+            `<p style='margin-left:10px;'> <span style='font-weight:bold;'>ISBN number :</span>   ${data[i].isbn}</p>`
+          );
+          newdiv.insertAdjacentHTML(
+            "beforeend",
+            `<p style='margin-left:10px;'><span style='font-weight:bold;'> Author :</span>   ${data[i].author}</p>`
+          );
+          newdiv.insertAdjacentHTML(
+            "beforeend",
+            `<p style='margin-left:10px;'> <span style='font-weight:bold;'>Copies available :</span>   ${data[i].copies}</p>`
+          );
+
+          booklist.appendChild(newdiv);
+        }
+      }
+
+      function getSearchData(data) {
+        var pos = 0;
+        hide(document.querySelectorAll(".normal"));
+        var booklist = document.getElementById("all-books");
+        var temp = document.createElement("div");
+        temp.classList.add("searchdiv");
+        booklist.appendChild(temp);
+        hide(document.querySelectorAll(".searchdiv"));
+        for (const i in data) {
+          var booklist = document.getElementById("all-books");
+          var newdiv = document.createElement("div");
+          newdiv.classList.add("searchdiv");
+
+          //var sno = document.createTextNode(`${data[i].SNo}`);
+          //newdiv.appendChild(sno);
+          newdiv.style.height = "auto";
+          newdiv.style.width = "90%";
+          newdiv.style.border = "1px solid rgba(0,0,0,.125)";
+          newdiv.insertAdjacentHTML(
+            "beforeend",
+            `<p style='margin-left:10px;'> <span style='font-weight:bold;'>S.No. :</span>   ${
+              Number(i) + Number(1)
+            }</p>`
+          );
+          newdiv.insertAdjacentHTML(
+            "beforeend",
+            `<p style='margin-left:10px;'><span style='font-weight:bold;'>Name of book:</span>   <a>${data[i].title}</a></p>`
+          );
+          newdiv.insertAdjacentHTML(
+            "beforeend",
+            `<p style='margin-left:10px;'> <span style='font-weight:bold;'>ISBN number :</span>   ${data[i].isbn}</p>`
+          );
+          newdiv.insertAdjacentHTML(
+            "beforeend",
+            `<p style='margin-left:10px;'><span style='font-weight:bold;'> Author :</span>   ${data[i].author}</p>`
+          );
+          newdiv.insertAdjacentHTML(
+            "beforeend",
+            `<p style='margin-left:10px;'> <span style='font-weight:bold;'>Copies available :</span>   ${data[i].copies}</p>`
+          );
+
+          booklist.appendChild(newdiv);
+        }
+      }
+      function hide(elements) {
+        elements = elements.length ? elements : [elements];
+        for (var index = 0; index < elements.length; index++) {
+          elements[index].style.display = "none";
+        }
+      }
+    </script>
+  </body>
+</html>

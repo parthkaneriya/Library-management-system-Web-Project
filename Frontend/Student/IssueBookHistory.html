@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Issue Book History</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+        body {
+        font-family: "DM Sans", sans-serif;
+        line-height: 1.5;
+        padding: 0;
+            margin: 0;
+        }
+      .navbar{
+          margin-top: 50px;
+      }
+      .navbar ul {
+        list-style-type: none;
+        border-collapse: collapse;
+        border:1px solid #2E86C1;
+        border-radius: 10px;
+        box-shadow: 0 5px 5px #e1e5ee;;
+        text-align: center;
+        margin : 20px;
+        margin-top: 60px;
+        padding: 0;
+        width: 18%;
+        height: 40%;
+        background-color:#2E86C1;
+        position: fixed;
+      }
+      .navbar li{
+    margin-bottom: 25px;
+}
+.navbar li a {
+        display: block;
+        font-size: 18px;
+        color: #eee;
+        padding: 8px 16px;
+        text-decoration: none;
+      }
+
+    .navbar li a.active {
+        background-color: #04aa6d;
+        color: white;
+      }
+
+.navbar li a:hover:not(.active) {
+        background-color: lightseagreen;
+        color: white;
+      }
+      #footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 60px;
+        background-color: #2E86C1;
+      }
+      #header {
+        position: fixed;
+        display: flex;
+        top: 0;
+        width: 100%;
+        height: 60px;
+        background: #2E86C1;
+      }
+      #header h2{
+          text-align: center;
+          margin:10px auto;
+          color:#ffffff;
+      }
+
+      #header button{
+        margin-right: 10%;
+        margin-top: 1%;
+        height: 50%;
+        background: transparent;
+        border: none;
+        color: #ffffff;
+        font-size: 20px;
+      }
+
+      #header button:hover {
+        background-color: lightseagreen;
+        color: white;
+      }
+      /* table,
+      th,
+      tr,
+      td {
+        border: 1px solid black;
+      } */
+
+      
+
+      .studentlist {
+        margin-top: 5%;
+        margin-left: 25%;
+      }
+      .student-search {
+        margin: 0 80px 20px 80px;
+      }
+      table{
+                border-collapse: collapse;
+                box-shadow: 0 5px 10px #e1e5ee;
+                background-color: white;
+                text-align: left;
+                overflow: hidden;
+            }
+            thead{
+                box-shadow: 0 5px 10px #e1e5ee;
+            }
+            th{
+                padding: 1rem 2rem;
+                text-transform: uppercase;
+                letter-spacing: 0.1rem;
+                font-size: 0.7rem;
+                font-weight: 900;
+            }
+
+            td{
+                text-align: center;
+                padding: 1rem 2rem;
+            }
+            tr{
+              text-align: center;
+            }
+            table{
+                width: 85%;
+            }
+            .student h2{
+                margin-top: 10%;
+                margin-left: 0%;
+                text-align: center;
+                background-color: #2E86C1;
+                width: 85%;
+                height: 35px;
+                color: #eee;
+            }
+            .student{
+                margin-left: 25%;  
+            }
+      #studentTable{
+        margin-left: 5%;
+        margin-right: 5%;
+        margin-top: 2%;
+        padding: 1px 16px;
+      }
+    </style>
+  </head>
+  <body onload="changeStatus()">
+    <div id="header" >
+      <h2>Library Management System</h2>
+      <button onclick="logout()">Logout</button>
+  </div>
+    <div class="navbar">
+    <ul>
+      <li><a href="Studenthome.html">Home</a></li>
+        <li><a href="BookList.html">View Books</a></li>
+        <li><a class="active" href="IssueBookHistory.html">Books Issue History</a></li>
+        <li><a href="EditProfile.html">Edit Profile</a></li>
+    </ul>
+    </div>
+
+    <div>
+        <div class="studentlist">
+           
+              
+              </div>
+            </div>
+            <div id="all-books">
+              <div class="student">
+              <h2>Issue Books History</h2>
+              <table id="studentIssuTable">
+                <thead>
+                    <tr style="background-color:rgba(0,0,0,.03);;">
+                        <th>S.No.</th>
+                        <th>BookName</th>
+                        <th>ISBN Number</th>
+                        <th>Issued Date</th>
+                        <th>Return Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+            </table>    
+                </div>
+            </div><br><br><br><br>
+          </div>
+      
+          <script>
+            let id = localStorage.getItem("id");
+            const api_url =
+        `https://librarymanagementsystemkp.herokuapp.com/api/user/issuehistory/${id}`;
+        var bearer_token = document.cookie.split("=")[1];
+  var bearer = 'Bearer ' + bearer_token;
+      fetch(api_url, {
+        method: "GET",
+        mode: "cors", // no-cors, *cors, same-origin
+        headers: {
+          'authorization' : bearer,
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          console.log(res);
+          getBookIssueData(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+            function getBookIssueData(studentData){
+                var pos = 1;
+                var pos_cell = 0;
+                for(const i in studentData)
+                {
+                    var t = document.getElementById("studentIssuTable");
+                    var row = t.insertRow(pos);
+                    var cell1 = row.insertCell(0);
+                    var cell2 = row.insertCell(1);
+                    var cell3 = row.insertCell(2);
+                    var cell4 = row.insertCell(3);
+                    var cell5 = row.insertCell(4);
+                    var cell6 = row.insertCell(5);
+
+                    cell1.innerHTML = `${pos}`;
+                    cell2.innerHTML = `${studentData[i].bookName}`;
+                    cell3.innerHTML = `${studentData[i].isbn}`;
+                    cell4.innerHTML = `${studentData[i].issueDate}`;
+                    cell5.innerHTML = `${studentData[i].returnDate}`;
+                    cell6.innerHTML = `<div>${studentData[i].status}</div>`;
+                    pos++;
+                }
+            }
+
+            function changeStatus(){
+                var table = document.getElementById("studentIssuTable");
+                var row_len = table.rows.length;
+                for(var i=1; i<row_len; i++)
+                {
+                    var status = table.rows[i].cells[5].children[0].innerHTML;
+                    console.log(status);
+                    if(status=="Issued")
+                    {
+                        table.rows[i].cells[5].children[0].style.backgroundColor = "#fff0c2";
+                        table.rows[i].cells[5].children[0].style.borderRadius = "10px";
+                        table.rows[i].cells[5].children[0].style.padding="0.2rem 1rem";
+                        table.rows[i].cells[5].children[0].style.color = "#a68b00";
+                    }
+                    if(status=="Returned")
+                    {
+                        table.rows[i].cells[5].children[0].style.backgroundColor = "#c8e6c9";
+                        table.rows[i].cells[5].children[0].style.borderRadius = "10px";
+                        table.rows[i].cells[5].children[0].style.padding="0.2rem 1rem";
+                        table.rows[i].cells[5].children[0].style.color = "#388e3c";
+                    }
+                    if(status=="Rejected")
+                    {
+                        table.rows[i].cells[5].children[0].style.backgroundColor = "#c8e6c9";
+                        table.rows[i].cells[5].children[0].style.borderRadius = "10px";
+                        table.rows[i].cells[5].children[0].style.padding="0.2rem 1rem";
+                        table.rows[i].cells[5].children[0].style.color = "#388e3c";
+                    }
+                }
+            }
+            function logout(){
+        document.cookie="token=;expires=Thu, 01 Jan 1970 00:00:00UTC; path=/;";
+        localStorage.clear();
+        window.location.href="../login.html"
+      }
+          </script>
+    </div>
+    <!-- <div id="footer">footer</div> -->
+  </body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>About us</title>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 0;
+      }
+
+      html {
+        box-sizing: border-box;
+      }
+
+      *,
+      *:before,
+      *:after {
+        box-sizing: inherit;
+      }
+
+      
+
+      .column {
+        float: left;
+        width: 33.3%;
+        margin-bottom: 16px;
+        padding: 0 8px;
+      }
+
+      .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        margin: 8px;
+      }
+
+      .about-section {
+        padding: 2%;
+        text-align: center;
+        font-size: 25px;
+        background-color: #474e5d;
+        color: white;
+      }
+
+      .container {
+        padding: 0 16px;
+      }
+
+      .container::after,
+      .row::after {
+        content: "";
+        clear: both;
+        display: table;
+      }
+
+      .title {
+        color: grey;
+      }
+
+      .button {
+        border: none;
+        outline: 0;
+        display: inline-block;
+        padding: 8px;
+        color: white;
+        background-color: #000;
+        text-align: center;
+        cursor: pointer;
+        width: 100%;
+      }
+      .container p :link,a:visited{
+        display: block;
+        font-weight: bold;
+        color: peru ;
+        width: 230px;
+        text-align:center;
+        padding: 4%;
+        text-transform: uppercase;
+        text-decoration: none;
+    }
+    
+    .container p :hover, a:active {
+    background-color: #04aa6d;
+    color: white;
+    }
+
+    a{
+      text-decoration: none;
+    }
+/* 
+      .button:hover {
+        background-color: #555;
+      } */
+      /* start navbar css*/
+nav {
+display: flex;
+justify-content: space-around;
+align-items: center;
+min-height: 8vh;
+background-color: #2E86C1;
+font-family: "Montserrat", sans-serif;
+
+}
+
+.heading {
+color: white;
+text-transform: uppercase;
+letter-spacing: 5px;
+font-size: 20px;
+}
+
+.nav-links {
+display: flex;
+justify-content: space-around;
+width: 40%;
+}
+
+.nav-links li {
+list-style: none;
+}
+
+.nav-links a {
+color: white;
+text-decoration: none;
+letter-spacing: 3px;
+font-weight: bold;
+font-size: 14px;
+padding: 14px 16px;
+
+}
+
+.nav-links a:hover:not(.active) {
+background-color: lightseagreen;
+}
+
+.nav-links li a.active {
+background-color: #4caf50;
+}
+/* End navbar css*/
+      @media screen and (max-width: 650px) {
+        .column {
+          width: 100%;
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="heading">
+        <h4>Library Management System</h4>
+      </div>
+      <ul class="nav-links">
+        <li style="margin-left:50px"><a href="index.html">HOME</a></li>
+        <li><a href="BookList.html">BOOKS</a></li>
+        <li><a href="aboutUs.html">ABOUT US</a></li>
+        <li><a href="login.html">Login</a></li>
+      </ul>
+    </nav>
+    <div class="about-section">
+      <h1>About Us</h1>
+      <p>
+        The Resource Centre is the hub for the library and information services in the Institute. It serves as a creative and innovative partner in supporting the teaching, learning, scholarship and research activities of the Institute. With the fast growing collection, both in digital and print forms using the state-of-the-art facilities, the Resource Centre is contributing to the Institute's mission of becoming a world class Institute in the areas of Information and Communication Technology and related subjects. Our vision is to become a premier Learning Resource Centre with a state-of-the-art library resources and services in the Information and Communication Technology and related areas.
+      </p>
+      <p></p>
+    </div>
+
+    <h2 style="text-align: center">Our Team</h2>
+    <div class="row">
+      <div class="column">
+        <div class="card">
+          <div class="container">
+            <h2>Parth Kaneriya</h2>
+            <p class="title">Developer</p>
+            <p> <a href = "mailto: 202112084@daiict.ac.in">202112084@daiict.ac.in</a></p>
+            <p><button class="button"><a href="https://www.linkedin.com/in/parthkaneriya/" target="_blank">Contact us</a></button></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="card">
+          <div class="container">
+            <h2>Uttam Dobariya</h2>
+            <p class="title">Developer</p>
+            <p><a href = "mailto: 202112094@daiict.ac.in">202112094@daiict.ac.in</a></p>
+            <p><button class="button"><a href="https://www.linkedin.com/in/uttam-dobariya-5b591a1b3/" target="_blank">Contact us</a></button></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="card">
+          <div class="container">
+            <h2>Apoorv Jain</h2>
+            <p class="title">Developer</p>
+            <p><a href = "mailto: 202112112@daiict.ac.in">202112112@daiict.ac.in</a></p>
+            <p><button class="button"><a href="https://www.linkedin.com/in/apoorv-jain-232494221/" target="_blank">Contact us</a></button></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

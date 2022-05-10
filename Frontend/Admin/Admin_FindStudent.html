@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Admin Find Students</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      .navbar ul {
+        list-style-type: none;
+        border-collapse: collapse;
+        border:1px solid #2E86C1;
+        border-radius: 10px;
+        box-shadow: 0 5px 5px #e1e5ee;;
+        text-align: center;
+        margin : 20px;
+        margin-top: 60px;
+        padding: 0;
+        width: 18%;
+        height: 60%;
+        background-color:#2E86C1;
+        position: fixed;
+      }
+      .navbar li{
+    margin-bottom: 25px;
+}
+.navbar li a {
+        display: block;
+        font-size: 18px;
+        color: #eee;
+        padding: 8px 16px;
+        text-decoration: none;
+      }
+
+    .navbar li a.active {
+        background-color: #04aa6d;
+        color: white;
+      }
+
+.navbar li a:hover:not(.active) {
+        background-color: lightseagreen;
+        color: white;
+      }
+      #footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 60px;
+        background-color: #2E86C1;
+      }
+      #header {
+        position: fixed;
+        display: flex;
+        top: 0;
+        width: 100%;
+        height: 60px;
+        background: #2E86C1;
+      }
+      #header h2{
+          text-align: center;
+          margin:10px auto;
+          color:#ffffff;
+      }
+
+      #header button{
+        margin-right: 10%;
+        margin-top: 1%;
+        height: 50%;
+        background: transparent;
+        border: none;
+        color: #ffffff;
+        font-size: 20px;
+      }
+
+      #header button:hover {
+        background-color: lightseagreen;
+        color: white;
+      }
+      /* table,
+      th,
+      tr,
+      td {
+        border: 1px solid black;
+      } */
+
+      
+
+      .studentlist {
+        margin-top: 5%;
+        margin-left: 25%;
+      }
+      .student-search {
+        margin: 0 80px 20px 80px;
+      }
+      table{
+                border-collapse: collapse;
+                box-shadow: 0 5px 10px #e1e5ee;
+                background-color: white;
+                text-align: left;
+                overflow: hidden;
+            }
+            thead{
+                box-shadow: 0 5px 10px #e1e5ee;
+            }
+            th{
+                padding: 1rem 2rem;
+                text-transform: uppercase;
+                letter-spacing: 0.1rem;
+                font-size: 0.7rem;
+                font-weight: 900;
+            }
+
+            td{
+                text-align: center;
+                padding: 1rem 2rem;
+            }
+            tr{
+              text-align: center;
+            }
+            table{
+                width: 85%;
+            }
+            .student h2{
+                margin-top: 2%;
+                margin-left: 5%;
+                text-align: center;
+                background-color: #2E86C1;
+                width: 85%;
+                height: 35px;
+                color: #eee;
+            }
+            .student{
+                margin-left: 25%;  
+            }
+      #studentTable{
+        margin-left: 5%;
+        margin-right: 5%;
+        margin-top: 2%;
+        padding: 1px 16px;
+      }
+      .search #search-btn {
+        width: 35px;
+        height: 35px;
+        margin: 38px 80px 20px 0;
+      }
+
+      /*search css start*/
+      .search{
+            display: flex;
+            justify-content: center;
+        }
+      .search-container{
+    margin-right: 18%;
+}
+.search .search-container button {
+  float: right;
+  padding: 5% 10px;
+  margin-right: 16px;
+  background: #ddd;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.search input{
+    padding: 5% 20% 5% 20%;
+}
+
+.search .search-container button:hover {
+  background: #ccc;
+}
+
+.student h2{
+  padding-top: 5px;
+}
+
+      /*search css end*/
+    </style>
+  </head>
+  <body onload="getData()">
+    <div id="header" >
+      <h2>Library Management System</h2>
+      <button onclick="logout()">Logout</button>
+  </div>
+    <div class="navbar">
+    <ul>
+      <li><a href="Admin_home.html">Home</a></li>
+      <li><a  href="Admin_addbook.html">Add Book</a></li>
+      <li><a href="BookList.html">View Books</a></li>       
+      <li><a href="Admin_FindBook.html">Update book</a></li>
+      <li><a class="active" href="Admin_FindStudent.html">Find Students</a></li>
+      <li><a href="Admin_issue_request.html">Books issue request</a></li>
+      <li><a href="Admin_issueed_Books.html">Issued Books</a></li>
+    </ul>
+    </div>
+
+    <div>
+        <div class="studentlist">
+            <div class="search">
+              
+              
+              
+              <!-- <img src="search.png" alt="search-icon" type="button" /> -->
+              <!-- <input id="search-btn" type="image" src="search.png" name="submit" alt="submit"/> -->
+              <div class="search-container">
+                <form style="display: flex;">
+                  <input type="text" id="s1" placeholder="Search by RollNo.." name="search">
+                  <button type="button" id="submit"><i class="fa fa-search"></i></button>
+                </form>
+              </div>
+              
+              </div>
+            </div>
+            <div id="all-books">
+              <div class="student">
+              <h2>Students List</h2>
+                <table id="studentTable">
+                  <thead>
+                    <tr style="background-color:rgba(0,0,0,.03);">
+                      <th>Roll No.</th>
+                      <th>Name</th>
+                      <th>Course</th>
+                      <th>Email</th>
+                      <th>Fine</th>
+                    </tr>
+                    </thead>
+                  </table>
+                  <table id="studentTable2" style="display: none;">
+                    <thead>
+                      <tr style="background-color:rgba(0,0,0,.03);">
+                        <th>Roll No.</th>
+                        <th>Name</th>
+                        <th>Course</th>
+                        <th>Email</th>
+                        <th>Fine</th>
+                      </tr>
+                      </thead>
+                    </table>
+                </div>
+            </div><br><br><br><br>
+          </div>
+      
+          <script>
+      const api_url =
+        "https://librarymanagementsystemkp.herokuapp.com/api/general/allstudents";
+        var bearer_token = document.cookie.split("=")[1];
+  var bearer = 'Bearer ' + bearer_token;
+      fetch(api_url, {
+        method: "GET",
+        mode: "cors", // no-cors, *cors, same-origin
+        headers: {
+          'authorization' : bearer,
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          console.log(res);
+          getData(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      document.querySelector("#submit").addEventListener("click", () => {
+        call();
+      });
+
+      function call(){
+        var name = document.getElementById("s1").value;
+        var search_api = `https://librarymanagementsystemkp.herokuapp.com/api/user/profile/${name}`;
+        fetch(search_api, {
+          method: "GET",
+          mode: "cors", // no-cors, *cors, same-origin
+          headers: {
+            'authorization' : bearer,
+            "Content-Type": "application/json",
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        })
+          .then((res) => {
+            return res.json();
+          })
+          .then((res) => {
+            console.log(res);
+            getSearchData(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+
+      function getData(issueRequest) {
+        var pos = 1;
+        var pos_cell = 0;
+        for (const i in issueRequest) {
+          var t = document.getElementById("studentTable");
+          var row = t.insertRow(pos);
+          var cell1 = row.insertCell(0);
+          var cell2 = row.insertCell(1);
+          var cell3 = row.insertCell(2);
+          var cell4 = row.insertCell(3);
+          var cell5 = row.insertCell(4);
+
+          cell1.innerHTML = `${issueRequest[i].rollNo}`;
+          cell2.innerHTML = `${issueRequest[i].firstName} ${issueRequest[i].lastName}`;
+          cell3.innerHTML = `${issueRequest[i].course}`;
+          cell4.innerHTML = `${issueRequest[i].email}`;
+          cell5.innerHTML = `${issueRequest[i].fine}`;
+          pos++;
+        }
+      }
+
+      function getSearchData(issueRequest) {
+        DeleteRows();
+        var pos = 1;
+        var pos_cell = 0;
+        var t = document.getElementById("studentTable2");
+          var row = t.insertRow(pos);
+          var cell1 = row.insertCell(0);
+          var cell2 = row.insertCell(1);
+          var cell3 = row.insertCell(2);
+          var cell4 = row.insertCell(3);
+          var cell5 = row.insertCell(4);
+
+          cell1.innerHTML = `${issueRequest.rollNo}`;
+          cell2.innerHTML = `${issueRequest.firstName} ${issueRequest.lastName}`;
+          cell3.innerHTML = `${issueRequest.course}`;
+          cell4.innerHTML = `${issueRequest.email}`;
+          cell5.innerHTML = `${issueRequest.fine}`;
+        for (const i in issueRequest) {
+          
+          pos++;
+        }
+      }
+
+      function DeleteRows() {
+        document.getElementById("studentTable").style.display="none";
+        document.getElementById("studentTable2").style.display="block";
+    }
+    function logout(){
+        document.cookie="token=;expires=Thu, 01 Jan 1970 00:00:00UTC; path=/;";
+        localStorage.clear();
+        window.location.href="../login.html"
+      }
+          </script>
+    </div>
+    <!-- <div id="footer">footer</div> -->
+  </body>
+</html>

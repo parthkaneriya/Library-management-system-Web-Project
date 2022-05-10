@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        
+    <title>Admin View Books</title>
+    <style>
+       @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+    body {
+      font-family: "DM Sans", sans-serif;
+      line-height: 1.5;
+      padding: 0;
+        margin: 0;
+    }
+      .navbar ul {
+        list-style-type: none;
+        border-collapse: collapse;
+        border:1px solid #2E86C1;
+        border-radius: 10px;
+        box-shadow: 0 5px 5px #e1e5ee;;
+        text-align: center;
+        margin : 20px;
+        margin-top: 60px;
+        padding: 0;
+        width: 18%;
+        height: 65%;
+        background-color:#2E86C1;
+        position: fixed;
+      }
+      .navbar li{
+    margin-bottom: 25px;
+}
+.navbar li a {
+        display: block;
+        font-size: 18px;
+        color: #eee;
+        padding: 8px 16px;
+        text-decoration: none;
+      }
+
+      .navbar li a.active {
+        background-color: #04aa6d;
+        color: white;
+      }
+
+.navbar li a:hover:not(.active) {
+        background-color: lightseagreen;
+        color: white;
+      }
+      #footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 60px;
+        background-color: #2E86C1;
+      }
+      #header {
+        position: fixed;
+        display: flex;
+        top: 0;
+        width: 100%;
+        height: 60px;
+        background: #2E86C1;
+      }
+      #header h2{
+          text-align: center;
+          margin:10px auto;
+          color:#ffffff;
+      }
+
+      #header button{
+        margin-right: 10%;
+        margin-top: 1%;
+        height: 50%;
+        background: transparent;
+        border: none;
+        color: #ffffff;
+        font-size: 20px;
+      }
+      .navbar li a.active {
+        background-color: #04aa6d;
+        color: white;
+      }
+
+      #header button:hover {
+        background-color: lightseagreen;
+        color: white;
+      }
+      
+
+            
+      table,
+      th,
+      tr,
+      td {
+        border: 1px solid black;
+      }
+
+       
+
+      .booklist {
+        margin-top: 8%;
+        margin-left: 25%;
+      }
+
+      .edit{
+        background-color: #2E86C1;
+        color:#f1f1f1;
+        width: 15%;
+        height: 30px;
+        border-radius: 5px;
+        border: none;
+        margin-right: 30px;
+      }
+
+      .delete{
+        background-color: #2E86C1;
+        color:#f1f1f1;
+        width: 15%;
+        height: 30px;
+        border-radius: 5px;
+        border: none;
+        margin-right: 30px;
+      }
+      /* .bookname-search {
+        margin: 0 80px 20px 80px;
+      }
+      .authorname-search {
+        margin: 0 80px 20px 80px;
+      } 
+
+      .search img {
+        width: 35px;
+        height: 35px;
+        margin: 35px 80px 20px 80px;
+      } */
+
+    
+      /*search css*/
+      .search {
+        display: flex;
+        margin-top: 50px;
+        margin-bottom: 50px;
+        margin-left: 18%;
+      }
+      .search-container{
+        margin-right: 18%;
+    }
+.search .search-container button {
+  float: right;
+  margin-right: 16px;
+  padding: 0.5rem 0.5rem;
+  background: #ddd;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.search input{
+    padding: 1%;
+}
+
+.search .search-container button:hover {
+  background: #ccc;
+}
+
+.popup {
+            width: 30%;
+            height: 150px;
+            border-collapse: collapse;
+            box-shadow: 0 5px 5px #e1e5ee;
+            border: 1px solid #e1e5ee;
+            margin-left: 35%;
+            margin-top: 15%;
+            position: fixed;
+            z-index: 1001;
+            display: none;
+
+        }
+
+        .popup button {
+            width: 20%;
+            height: 40px;
+            color: white;
+
+            background-color: #0096FF;
+            border: none;
+            border-radius: 10px;
+            margin-left: 40%;
+        }
+
+        .popup p {
+            font-size: large;
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="popup" id="popup">
+      <p>Your book added successfully</p>
+
+      <button id="okbtn">Ok</button>
+  </div>
+    <div id="header" >
+      <h2>Library Management System</h2>
+      <button onclick="logout()">Logout</button>
+  </div>
+    <div class="navbar">
+    <ul>
+      <li><a href="Admin_home.html">Home</a></li>
+        <li><a  href="Admin_addbook.html">Add Book</a></li>
+        <li><a href="BookList.html">View Books</a></li>       
+        <li><a class="active" href="Admin_FindBook.html">Update book</a></li>
+        <li><a href="Admin_FindStudent.html">Find Students</a></li>
+        <li><a href="Admin_issue_request.html">Books issue request</a></li>
+        <li><a href="Admin_issueed_Books.html">Issued Books</a></li>
+
+    </ul>
+    </div>
+
+    
+        <div class="booklist">
+            <div class="search">
+              <div class="search-container">
+                <form style="display: flex;">
+                  <input type="text" id="s1" placeholder="Search by book.." style="margin-right:50px;"name="search">
+                  <input type="text" id="s2" placeholder="Search by author.." style="margin-right:50px;" name="search">
+                  <button type="button" id="search"><i class="fa fa-search"></i></button>
+                </form>
+              </div>
+
+            </div>
+            <div id="all-books"></div><br><br><br><br>
+          </div>
+      
+          <script>
+             const api_url =
+        "https://librarymanagementsystemkp.herokuapp.com/api/general/allbooks";
+        var bearer_token = document.cookie.split("=")[1];
+  var bearer = 'Bearer ' + bearer_token;
+      fetch(api_url, {
+        method: "GET",
+        mode: "cors", // no-cors, *cors, same-origin
+        headers: {
+          'authorization' : bearer,
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          console.log(res);
+          getData(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      //   console.log(data);
+      document.querySelector("#search").addEventListener("click", () => {
+        call();
+      });
+      function call() {
+        // var params = new URLSearchParams({
+        //   name: document.getElementById("s1").value,
+        //   author: document.getElementById("s2").value,
+        // });
+        var name = document.getElementById("s1").value;
+        var author = document.getElementById("s2").value;
+        if (name === "") {
+          var search_api = `https://librarymanagementsystemkp.herokuapp.com/api/admin/searchbook?author=${author}`;
+        } else if (author === "") {
+          var search_api = `https://librarymanagementsystemkp.herokuapp.com/api/admin/searchbook?name=${name}`;
+        } else {
+          var search_api = `https://librarymanagementsystemkp.herokuapp.com/api/admin/searchbook?name=${name}&author=${author}`;
+        }
+
+        console.log(search_api);
+        fetch(search_api, {
+          method: "GET",
+          mode: "cors", // no-cors, *cors, same-origin
+          headers: {
+            'authorization' : bearer,
+            "Content-Type": "application/json",
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        })
+          .then((res) => {
+            return res.json();
+          })
+          .then((res) => {
+            console.log(res);
+            getSearchData(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+
+//query selector
+
+            function getData(data) {
+              var pos = 0;
+              for (const i in data) {
+                var booklist = document.getElementById("all-books");
+                var newdiv = document.createElement("div");
+                newdiv.classList.add("normal");
+                //var sno = document.createTextNode(`${data[i].SNo}`);
+                //newdiv.appendChild(sno);
+                newdiv.style.height = "auto";
+                newdiv.style.width = "80%";
+                newdiv.style.border = "1px solid rgba(0,0,0,.125)";
+                newdiv.insertAdjacentHTML(
+                  "beforeend",
+                  `<p style='margin-left:10px;'> <span style='font-weight:bold;'>S.No. :</span>   ${
+              Number(i) + Number(1)
+            }</p>`
+                );
+                newdiv.insertAdjacentHTML(
+                  "beforeend",
+                  `<p style='margin-left:10px;'><span style='font-weight:bold;'>Name of book:</span>   ${data[i].title}</p>`
+                );
+                newdiv.insertAdjacentHTML(
+                  "beforeend",
+                  `<p style='margin-left:10px;'> <span style='font-weight:bold;'>ISBN number :</span>   <span> ${data[i].isbn}</span></p>`
+                );
+                newdiv.insertAdjacentHTML(
+                  "beforeend",
+                  `<p style='margin-left:10px;'><span style='font-weight:bold;'> Author :</span>   ${data[i].author}</p>`
+                );
+                newdiv.insertAdjacentHTML(
+                  "beforeend",
+                  `<p style='margin-left:10px;'> <span style='font-weight:bold;'>Copies available :</span>   ${data[i].copies}</p>`
+                );
+                newdiv.insertAdjacentHTML(
+                  "beforeend",
+                  `<a ><button style='margin-left:10px;' class="edit" id="${i}" name="edit" onclick="redirect(this.id)">Edit</button></a>   <a><button class="delete" id="${i+100}" name="delete" onclick="redirect2(this.id)">Delete</button></a><br><br>`
+                );
+                booklist.appendChild(newdiv);
+              }
+            }
+
+      function getSearchData(data) {
+        var pos = 0;
+        hide(document.querySelectorAll(".normal"));
+        var booklist = document.getElementById("all-books");
+        var temp = document.createElement("div");
+        temp.classList.add("searchdiv");
+        booklist.appendChild(temp);
+        hide(document.querySelectorAll(".searchdiv"));
+        for (const i in data) {
+          var booklist = document.getElementById("all-books");
+          var newdiv = document.createElement("div");
+          newdiv.classList.add("searchdiv");
+
+          //var sno = document.createTextNode(`${data[i].SNo}`);
+          //newdiv.appendChild(sno);
+          newdiv.style.height = "auto";
+          newdiv.style.width = "90%";
+          newdiv.style.border = "1px solid rgba(0,0,0,.125)";
+          newdiv.insertAdjacentHTML(
+                  "beforeend",
+                  `<p style='margin-left:10px;'> <span style='font-weight:bold;'>S.No. :</span>   ${
+              Number(i) + Number(1)
+            }</p>`
+                );
+                newdiv.insertAdjacentHTML(
+                  "beforeend",
+                  `<p style='margin-left:10px;'><span style='font-weight:bold;'>Name of book:</span>   ${data[i].title}</p>`
+                );
+                newdiv.insertAdjacentHTML(
+                  "beforeend",
+                  `<p style='margin-left:10px;'> <span style='font-weight:bold;'>ISBN number :</span>  <span> ${data[i].isbn}</span></p>`
+                );
+                newdiv.insertAdjacentHTML(
+                  "beforeend",
+                  `<p style='margin-left:10px;'><span style='font-weight:bold;'> Author :</span>   ${data[i].author}</p>`
+                );
+                newdiv.insertAdjacentHTML(
+                  "beforeend",
+                  `<p style='margin-left:10px;'> <span style='font-weight:bold;'>Copies available :</span>   ${data[i].copies}</p>`
+                );
+                newdiv.insertAdjacentHTML(
+                  "beforeend",
+                  `<a><button style='margin-left:10px;' class="edit" id="${i}" name="edit" onclick="redirect(this.id)">Edit</button></a>   <a><button class="delete" id="${i+100}" name="delete" onclick="redirect2(this.id)">Delete</button></a><br><br>`
+                );
+
+          booklist.appendChild(newdiv);
+        }
+      }
+
+      function redirect(id){
+        // var rowJS=document.getElementById(id).parentNode.id;
+        var isbn=document.getElementById(id).parentNode.previousElementSibling.previousElementSibling.previousElementSibling.children[1].innerHTML;
+        localStorage.setItem("editisbn",isbn.trim());
+        console.log(isbn);
+        window.location.href="./admin_editbook.html";
+      }
+
+      function redirect2(id){
+        var deleteisbn=document.getElementById(id).parentNode.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.children[1].innerHTML.trim();
+        console.log(deleteisbn);
+        const api=`https://librarymanagementsystemkp.herokuapp.com/api/admin/deletebook/${deleteisbn}`
+        fetch(api, {
+        method: "DELETE",
+        mode: "cors", // no-cors, *cors, same-origin
+        headers: {
+          'authorization' : bearer,
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          console.log(res);
+          displaypopup(res);
+          // window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+        console.log(deleteisbn);
+      }
+
+      function hide(elements) {
+        elements = elements.length ? elements : [elements];
+        for (var index = 0; index < elements.length; index++) {
+          elements[index].style.display = "none";
+        }
+      }
+      document.getElementById("okbtn").addEventListener("click",removepopup);
+        function displaypopup(res)
+        {
+          // console.log(res.message);
+          document.getElementById("popup").children[0].innerHTML=res.message;  
+          document.getElementById("popup").style.display="block"; 
+        }
+        function removepopup()
+        {
+          document.getElementById("popup").style.display="none";
+          window.location.reload();
+        }
+        function logout(){
+        document.cookie="token=;expires=Thu, 01 Jan 1970 00:00:00UTC; path=/;";
+        localStorage.clear();
+        window.location.href="../login.html"
+      }
+          </script>
+    </div>
+    
+  </body>
+</html>
